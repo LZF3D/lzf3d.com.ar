@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preguntas Frecuentes — LZF3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0b;
+  --surface: #111114;
+  --surface2: #18181d;
+  --azul: #2563eb;
+  --azul2: #3b82f6;
+  --blanco: #f0eeea;
+  --gris: #4a4a52;
+  --gris2: #2a2a30;
+  --texto: #c8c5be;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--blanco); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 500;
+  padding: 20px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(10,10,11,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(37,99,235,0.15);
+}
+.logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 3px; color: var(--blanco); text-decoration: none; }
+.logo span { color: var(--azul); }
+.nav-back {
+  background: transparent; color: var(--texto);
+  border: 1px solid var(--gris2); padding: 9px 22px;
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  text-decoration: none; display: inline-block;
+}
+.nav-back:hover { border-color: var(--azul); color: var(--azul); }
+
+/* HERO */
+.hero-faq {
+  padding: 140px 80px 80px;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--gris2);
+}
+.hero-faq::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-faq-inner { position: relative; z-index: 1; max-width: 700px; }
+.eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--azul);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--azul); }
+.hero-faq h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  letter-spacing: 2px; line-height: 0.95; margin-bottom: 24px;
+}
+.hero-faq h1 span { color: var(--azul); }
+.hero-faq p { font-size: 0.95rem; color: var(--texto); line-height: 1.7; max-width: 580px; }
+
+/* CATEGORÍAS TABS */
+.faq-wrap { max-width: 1100px; margin: 0 auto; padding: 80px; }
+
+.faq-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 56px;
+}
+.tab-btn {
+  background: var(--surface); border: 1px solid var(--gris2);
+  color: var(--texto); padding: 10px 22px;
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+  transition: all 0.2s;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+}
+.tab-btn:hover, .tab-btn.active { background: var(--azul); border-color: var(--azul); color: var(--blanco); }
+
+/* SECCIONES FAQ */
+.faq-section { display: none; }
+.faq-section.active { display: block; }
+
+.faq-section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: 2px;
+  margin-bottom: 24px; display: flex; align-items: center; gap: 16px;
+}
+.faq-section-title span { color: var(--azul); font-size: 1.8rem; }
+
+/* ACORDEÓN */
+.faq-item {
+  border: 1px solid var(--gris2);
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+.faq-item.open { border-color: rgba(37,99,235,0.4); }
+
+.faq-question {
+  width: 100%; background: var(--surface); border: none;
+  padding: 22px 28px; text-align: left; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  transition: background 0.2s;
+}
+.faq-question:hover { background: var(--surface2); }
+.faq-item.open .faq-question { background: rgba(37,99,235,0.07); }
+
+.faq-q-text {
+  font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+  font-weight: 600; color: var(--blanco); text-align: left; line-height: 1.4;
+}
+.faq-icon {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+  color: var(--azul); flex-shrink: 0; transition: transform 0.3s;
+  width: 28px; text-align: center;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+.faq-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+  background: var(--bg);
+}
+.faq-item.open .faq-answer { max-height: 400px; }
+.faq-answer-inner {
+  padding: 0 28px 24px;
+  font-size: 0.9rem; color: var(--texto); line-height: 1.8;
+}
+.faq-answer-inner a { color: var(--azul); text-decoration: none; }
+.faq-answer-inner a:hover { text-decoration: underline; }
+.faq-answer-inner strong { color: var(--blanco); }
+
+.highlight {
+  background: rgba(37,99,235,0.07); border-left: 3px solid var(--azul);
+  padding: 14px 18px; margin-top: 12px; font-size: 0.85rem;
+}
+
+/* CONTACTO FINAL */
+.contacto-final {
+  background: var(--surface); border: 1px solid var(--gris2);
+  padding: 48px; margin-top: 60px; text-align: center;
+}
+.contacto-final h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; margin-bottom: 12px; }
+.contacto-final p { font-size: 0.9rem; color: var(--texto); margin-bottom: 28px; line-height: 1.7; }
+.contact-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-wa {
+  background: #25D366; color: var(--bg); border: none; padding: 14px 36px;
+  font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  text-decoration: none; display: inline-block; transition: opacity 0.2s;
+}
+.btn-wa:hover { opacity: 0.85; }
+.btn-ig {
+  background: transparent; color: var(--blanco);
+  border: 1px solid var(--gris2); padding: 14px 36px;
+  font-family: 'Space Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  text-decoration: none; display: inline-block; transition: border-color 0.2s, color 0.2s;
+}
+.btn-ig:hover { border-color: var(--azul); color: var(--azul); }
+
+footer {
+  background: var(--surface); border-top: 1px solid rgba(37,99,235,0.15);
+  padding: 32px 80px; display: flex; align-items: center; justify-content: space-between;
+  margin-top: 80px;
+}
+footer p { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--gris); letter-spacing: 1px; }
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; color: var(--blanco); }
+.footer-logo span { color: var(--azul); }
+
+.wa-float {
+  position: fixed; bottom: 28px; right: 28px;
+  background: #25D366; color: #fff; width: 54px; height: 54px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+  z-index: 400; text-decoration: none; animation: wa-pulse 2s ease-in-out infinite;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+}
+@keyframes wa-pulse { 0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 32px rgba(37,211,102,0.7); } }
+
+@media(max-width:900px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  nav { padding: 16px 24px; }
+  .hero-faq { padding: 120px 32px 60px; }
+  .faq-wrap { padding: 48px 32px; }
+  footer { flex-direction: column; gap: 12px; padding: 28px 32px; text-align: center; }
+}
+@media(max-width:600px){
+  .hero-faq,.hero-nosotros,.hero-terminos{padding:100px 20px 48px!important;}
+  .faq-wrap,.nosotros-wrap,.terminos-wrap{padding:32px 20px!important;}
+  footer{flex-direction:column;gap:12px;padding:24px 20px!important;text-align:center;}
+  .cta-banner{margin:0 20px!important;padding:32px 20px!important;flex-direction:column;align-items:flex-start;}
+  .btn-cta-dark{width:100%;text-align:center;}
+}
+
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.hamburger span { display: block; width: 24px; height: 2px; background: #f0eeea; transition: all 0.3s; }
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.mobile-menu {
+  display: none; position: fixed; top: 64px; left: 0; right: 0;
+  background: rgba(10,10,11,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(37,99,235,0.2);
+  padding: 24px 24px 32px; z-index: 499; flex-direction: column;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: monospace; font-size: 0.8rem; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none; color: #c8c5be;
+  padding: 14px 0; border-bottom: 1px solid rgba(37,99,235,0.1);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="LZF3D.html" class="logo">LZF<span>3D</span></a>
+  <a href="LZF3D.html" class="nav-back">← Volver a la tienda</a>
+  <button class="hamburger" id="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open');this.classList.toggle('open')" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Inicio</a>
+  <a href="index.html#productos">Productos</a>
+  <a href="index.html#categorias">Categorías</a>
+  <a href="index.html#materiales">Materiales</a>
+  <a href="index.html#contacto">Contacto</a>
+</div>
+
+<!-- HERO -->
+<div class="hero-faq">
+  <div class="hero-faq-inner">
+    <p class="eyebrow">Preguntas frecuentes</p>
+    <h1>FAQ —<br><span>TUS DUDAS</span></h1>
+    <p>Respondemos las preguntas más comunes sobre nuestros productos, envíos, materiales y pagos. Si no encontrás lo que buscás, escribinos por WhatsApp.</p>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-wrap">
+
+  <!-- TABS -->
+  <div class="faq-tabs">
+    <button class="tab-btn active" onclick="showTab('productos')">📦 Productos</button>
+    <button class="tab-btn" onclick="showTab('envios')">🚚 Envíos</button>
+    <button class="tab-btn" onclick="showTab('pagos')">💳 Pagos</button>
+    <button class="tab-btn" onclick="showTab('materiales')">🧱 Materiales</button>
+    <button class="tab-btn" onclick="showTab('cambios')">🔄 Cambios</button>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="faq-section active" id="tab-productos">
+    <div class="faq-section-title"><span>📦</span> Sobre los productos</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Los productos son fabricados por ustedes o los importan?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Todos nuestros productos son <strong>fabricados por nosotros en Córdoba, Argentina</strong>. Usamos impresoras 3D FDM propias y diseñamos la mayoría de los modelos nosotros mismos. No revendemos productos de terceros.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Los productos se ven exactamente como en las fotos?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Las fotos son muy representativas, pero puede haber pequeñas variaciones de color según el lote de filamento y la pantalla de tu dispositivo. Las piezas impresas en 3D también pueden tener leves marcas de capa visibles de cerca, que son propias del proceso de fabricación y no afectan la calidad ni la funcionalidad.
+        <div class="highlight">💡 Si tenés dudas sobre el color o acabado de un producto específico, escribinos por WhatsApp y te mandamos una foto real.</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Hacen productos personalizados o a pedido?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Por el momento <strong>vendemos únicamente los productos de nuestro catálogo propio</strong>. No hacemos impresión a medida ni aceptamos archivos de clientes. Nuestro foco está en los diseños que nosotros desarrollamos.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Los vasos chop son aptos para uso con líquidos?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Sí. Los vasos chop están fabricados en <strong>PETG</strong>, un material resistente al contacto con líquidos fríos. <strong>No se recomienda</strong> su uso con líquidos muy calientes ni meterlos en microondas. Para limpiarlos, lavado a mano con agua y jabón.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Tienen stock disponible o fabrican a pedido?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Depende del producto. Algunos los tenemos en stock y despachamos en 24/48hs. Otros se fabrican al momento de la compra, con un plazo de producción de 2 a 5 días hábiles. En cada producto indicamos la disponibilidad. Ante cualquier duda, consultanos por WhatsApp antes de comprar.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿En qué colores están disponibles los productos?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Trabajamos con una amplia gama de filamentos. Los colores disponibles pueden variar según el producto. Si querés un color específico que no ves en el catálogo, consultanos por WhatsApp y vemos si está disponible.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ENVÍOS -->
+  <div class="faq-section" id="tab-envios">
+    <div class="faq-section-title"><span>🚚</span> Envíos y entregas</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿A qué lugares de Argentina envían?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Enviamos a <strong>todo el país</strong> desde Córdoba Capital. Trabajamos con OCA, Andreani y Correo Argentino. El costo y plazo de envío varía según el destino.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Cuánto tarda en llegar mi pedido?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        El plazo tiene dos partes: <strong>producción + tránsito</strong>.
+        <br><br>
+        • <strong>Producción:</strong> 1 a 5 días hábiles según el producto.<br>
+        • <strong>Tránsito:</strong> 2 a 7 días hábiles según la empresa de correo y el destino.<br><br>
+        En total, calculá entre 3 y 10 días hábiles desde la confirmación del pago. Para envíos dentro de Córdoba Capital los plazos suelen ser menores.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Puedo rastrear mi pedido?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Sí. Una vez que despachamos tu pedido, te enviamos el <strong>número de seguimiento</strong> por WhatsApp o email para que puedas rastrearlo en tiempo real en el sitio del correo que corresponda.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Cuánto cuesta el envío?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        El costo de envío se calcula según el peso del pedido y el destino. Te lo informamos antes de confirmar la compra para que no haya sorpresas. Consultanos por WhatsApp con tu código postal para darte un precio exacto.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Qué pasa si mi paquete llega dañado?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Si tu paquete llega dañado, <strong>escribinos dentro de las 48hs</strong> de haberlo recibido con fotos del estado del embalaje y el producto. Gestionamos la reposición o devolución sin costo para vos.
+        <div class="highlight">📸 Importante: tomá fotos del paquete antes de abrirlo si notás que llega golpeado. Eso nos ayuda a gestionar el reclamo.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- PAGOS -->
+  <div class="faq-section" id="tab-pagos">
+    <div class="faq-section-title"><span>💳</span> Pagos y precios</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Qué medios de pago aceptan?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Aceptamos: <strong>Transferencia bancaria / CVU, Mercado Pago, tarjetas de crédito hasta 12 cuotas, MODO y Tarjeta Naranja</strong>. La transferencia no tiene recargo. Otros medios pueden tener recargo según la financiación elegida.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Cuándo se confirma mi pedido?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        El pedido se confirma una vez que <strong>se acredita el pago</strong>. Si pagás por transferencia, el plazo de producción empieza cuando verificamos el depósito (generalmente el mismo día o el siguiente día hábil).
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Los precios incluyen IVA?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Sí. Todos los precios publicados están en <strong>Pesos Argentinos (ARS)</strong> e incluyen IVA. El precio que ves es el precio final, sin sorpresas.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Pueden cambiar los precios?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Los precios pueden actualizarse sin previo aviso. El precio válido es siempre el que estaba publicado <strong>al momento en que confirmaste tu compra</strong>.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- MATERIALES -->
+  <div class="faq-section" id="tab-materiales">
+    <div class="faq-section-title"><span>🧱</span> Materiales</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Qué es el PLA y para qué sirve?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        El <strong>PLA</strong> es el material más usado en impresión 3D. Es rígido, tiene excelente acabado y está disponible en muchos colores. Es ideal para decoración, figuras y accesorios. <strong>No es apto para altas temperaturas</strong> — evitá dejarlo al sol directo por mucho tiempo o cerca de fuentes de calor.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Qué es el PETG y en qué productos lo usan?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        El <strong>PETG</strong> es más resistente que el PLA, aguanta mejor el calor y es apto para contacto con líquidos fríos. Lo usamos principalmente en los <strong>vasos chop</strong> y en productos que requieren mayor durabilidad mecánica.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿El TPU es flexible?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Sí. El <strong>TPU</strong> es un material flexible y elástico, similar a la goma. Lo usamos en productos que necesitan absorber golpes o tener algo de flexibilidad, como fundas o accesorios con rebote.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Los productos en PLA se deforman con el calor?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        El PLA puede deformarse a partir de los <strong>55-60°C</strong>. Esto significa que no debés dejarlo bajo el sol directo en verano por tiempo prolongado, cerca de estufas, dentro de un auto cerrado con calor, ni exponerlo a líquidos calientes. Para uso en exteriores o con calor, consultanos sobre opciones en PETG o ABS.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Cómo limpio mis productos impresos en 3D?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Para todos los productos: <strong>paño seco o levemente húmedo</strong>. Para los vasos chop en PETG: lavado a mano con agua tibia y jabón neutro. <strong>No usar lavavajillas, microondas, ni sumergir por tiempo prolongado</strong> ningún producto impreso en 3D.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- CAMBIOS -->
+  <div class="faq-section" id="tab-cambios">
+    <div class="faq-section-title"><span>🔄</span> Cambios y devoluciones</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Puedo devolver un producto si me arrepiento?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Aceptamos devoluciones por <strong>defecto de fabricación o producto equivocado</strong>. No aceptamos devoluciones por arrepentimiento una vez despachado el pedido. Si tenés dudas sobre un producto antes de comprar, escribinos y te asesoramos.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Qué hago si recibo un producto con defecto?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Escribinos por WhatsApp al <a href="https://wa.me/5493513828277">+54 9 351 382-8277</a> dentro de las <strong>48hs de recibido</strong> el producto. Mandanos fotos del defecto y te damos una solución rápida: reposición o devolución del dinero, según prefieras.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Tienen garantía los productos?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Sí. Todos los productos tienen <strong>30 días de garantía</strong> contra defectos de fabricación desde la fecha de recepción. La garantía no cubre roturas por caídas, deformaciones por calor o daños por mal uso.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggle(this)">
+        <span class="faq-q-text">¿Puedo cambiar un producto por otro?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><div class="faq-answer-inner">
+        Los cambios se aceptan únicamente en casos de defecto de fabricación o producto equivocado enviado por error nuestro. En esos casos el cambio es <strong>sin costo</strong> para vos, incluyendo el envío de la reposición.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- CONTACTO FINAL -->
+  <div class="contacto-final">
+    <h3>¿NO ENCONTRASTE LO QUE BUSCABAS?</h3>
+    <p>Escribinos directamente y te respondemos lo antes posible.<br>Atendemos de lunes a sábado de 9 a 20hs.</p>
+    <div class="contact-btns">
+      <a href="https://wa.me/5493513828277" target="_blank" class="btn-wa">💬 WhatsApp</a>
+      <a href="https://www.instagram.com/lzf3d/" target="_blank" class="btn-ig">📷 Instagram</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">LZF<span>3D</span></div>
+  <p>© 2025 LZF3D — CÓRDOBA, ARGENTINA</p>
+  <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95f9eff3a6f1a7a5a5a1d5f2f8f4fcf9bbf6faf8">[email&#160;protected]</a></p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5493513828277" target="_blank">💬</a>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function toggle(btn) {
+  const item = btn.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.faq-section').forEach(s => s.classList.remove
